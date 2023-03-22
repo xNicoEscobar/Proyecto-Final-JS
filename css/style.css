@@ -3,3 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    background-image: url(../assets/3509789.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+main h2{
+    color: white !important;
+}
+
