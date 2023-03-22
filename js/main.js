@@ -11,6 +11,7 @@ class ProductoController {
     }
 
     mostrarEnDOM(contenedor_productos) {
+        contenedor_productos.innerHTML = ""
         this.listaProductos.forEach(producto => {
             contenedor_productos.innerHTML += `
                     <div class="card" style="width: 18rem;">
@@ -19,7 +20,7 @@ class ProductoController {
                                 <h5 class="card-title">${producto.nombre}</h5>
                                 <p class="card-text">${producto.descripcion}</p>
                                 <p>Precio: <strong>$${producto.precio}</p></strong>
-                                <a href="#" class="btn btn-primary d-flex justify-content-center" id="cpu${producto.id}">Añadir al carrito</a>
+                                <a href="#" class="btn btn-primary d-flex justify-content-center" id="gpu${producto.id}">Añadir al carrito</a>
                             </div>
                     </div>
             `
@@ -29,7 +30,7 @@ class ProductoController {
 
 class CarritoController {
     constructor() {
-        listaCarrito = []
+        this.listaCarrito = []
     }
 
     levantar() {
@@ -42,7 +43,7 @@ class CarritoController {
     anadir(producto) {
         this.listaCarrito.push(producto)
 
-        let formatoJSON = JSON.parse(this.listaCarrito)
+        let formatoJSON = JSON.stringify(this.listaCarrito)
 
         localStorage.setItem("listaCarrito", formatoJSON)
     }
@@ -79,31 +80,17 @@ controladorCarrito.levantar()
 const contenedor_productos = document.getElementById("contenedor_productos")
 const contenedor_carrito = document.getElementById("contenedor_carrito")
 
-listaProductos.forEach(producto => {
-    contenedor_productos.innerHTML += `
-            <div class="card" style="width: 18rem;">
-            <img src="${producto.img}" alt="RX 6600 XT">
-            <div class="card-body">
-            <h5 class="card-title">${producto.nombre}</h5>
-            <p class="card-text">${producto.descripcion}</p>
-            <p>Precio: <strong>$${producto.precio}</p></strong>
-            <a href="#" class="btn btn-primary d-flex justify-content-center" id="cpu${producto.id}">Añadir al carrito</a>
-            </div>
-            </div>
-            `
-})
-
 controladorProductos.mostrarEnDOM(contenedor_productos)
 controladorCarrito.mostrarEnDOM(contenedor_carrito)
 
 controladorProductos.listaProductos.forEach(producto => {
-    const productoEnCarrito = document.getElementById(`cpu${producto.id}`)
+    const productoEnCarrito = document.getElementById(`gpu${producto.id}`)
 
     productoEnCarrito.addEventListener("click", () => {
 
         controladorCarrito.anadir(producto)
 
-        contenedor_carrito.innerHTML = ""
+        controladorCarrito.levantar()
 
         controladorCarrito.mostrarEnDOM(contenedor_carrito)
     })
