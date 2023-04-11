@@ -4,24 +4,11 @@ class ProductoController {
     }
 
 //Implemento Fetch
-    levantarJSON() {
-        fetch("./js/mi_api.json")
-        .then(resp => resp.json())
-        .then(listaProductos => 
-            
-            listaProductos.forEach(producto => {
-            this.contenedor_productos.innerHTML += `
-                    <div class="card" style="width: 18rem;">
-                        <img style="width: 286px height: 218px" src="${producto.img}" alt="RX 6600 XT">
-                            <div class="card-body">
-                                <h5 class="card-title d-flex justify-content-center">${producto.nombre}</h5>
-                                <p class="card-text">${producto.descripcion}</p>
-                                <p>Precio: <strong>$${producto.precio}</p></strong>
-                                <a href="#" class="btn btn-primary d-flex justify-content-center"  id="gpu${producto.id}">Añadir al carrito</a>
-                            </div>
-                    </div>
-            `
-        }))
+    async levantarJSON(controladorCarrito) {
+        let res = await fetch("./js/mi_api.json")
+        this.listaProductos = await res.json()
+        this.mostrarEnDOM(contenedor_productos)
+        this.eventoEnAnadirCarrito(controladorCarrito)
     }
 
     mostrarEnDOM(contenedor_productos) {
@@ -40,6 +27,34 @@ class ProductoController {
                             </div>
                     </div>
             `
+        })
+    }
+
+    eventoEnAnadirCarrito(controladorCarrito){
+        this.listaProductos.forEach(producto => {
+            const productoEnCarrito = document.getElementById(`gpu${producto.id}`)
+        
+            productoEnCarrito.addEventListener("click", () => {
+        
+                controladorCarrito.anadir(producto)
+        
+                controladorCarrito.levantar()
+        
+                controladorCarrito.mostrarEnDOM(contenedor_carrito)
+        
+                controladorCarrito.mostrarPreciosEnDOM(subtotal, total)
+                Toastify({
+                    text: "Añadido al carrito!",
+                    duration: 2000,
+                    gravity: "bottom",
+                    position: "right",
+                    style: {
+                        background: "linear-gradient(to right, #1eb597, #227bad)",
+                        color: "white"
+        
+                    },
+                }).showToast();
+            })
         })
     }
 }
@@ -155,11 +170,9 @@ const controladorProductos = new ProductoController()
 const controladorCarrito = new CarritoController()
 
 //Verificador de storage
-controladorProductos.levantarJSON()
 const levantoEsto = controladorCarrito.levantar()
 
-//Levanto JSON
-controladorProductos.levantarJSON()
+controladorProductos.levantarJSON(controladorCarrito)
 
 //Obtengo el DOM
 const contenedor_productos = document.getElementById("contenedor_productos")
@@ -174,35 +187,11 @@ if(levantoEsto){
 }
 
 //Aplicación JS
+
 controladorProductos.mostrarEnDOM(contenedor_productos)
 controladorCarrito.mostrarEnDOM(contenedor_carrito)
+controladorProductos.eventoEnAnadirCarrito(controladorCarrito)
 
-//Eventos en boton de las cards
-controladorProductos.listaProductos.forEach(producto => {
-    const productoEnCarrito = document.getElementById(`gpu${producto.id}`)
-
-    productoEnCarrito.addEventListener("click", () => {
-
-        controladorCarrito.anadir(producto)
-
-        controladorCarrito.levantar()
-
-        controladorCarrito.mostrarEnDOM(contenedor_carrito)
-
-        controladorCarrito.mostrarPreciosEnDOM(subtotal, total)
-        Toastify({
-            text: "Añadido al carrito!",
-            duration: 2000,
-            gravity: "bottom",
-            position: "right",
-            style: {
-                background: "linear-gradient(to right, #1eb597, #227bad)",
-                color: "white"
-
-            },
-        }).showToast();
-    })
-})
 
 //Eventos en productos en carrito
 finalizar_compra.addEventListener("click", () => {
