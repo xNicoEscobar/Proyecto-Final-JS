@@ -1,9 +1,10 @@
+//Clases y métodos
 class ProductoController {
     constructor() {
         this.listaProductos = []
     }
 
-//Implemento Fetch
+    //Implemento Fetch
     async levantarJSON(controladorCarrito) {
         let res = await fetch("./js/mi_api.json")
         this.listaProductos = await res.json()
@@ -17,31 +18,31 @@ class ProductoController {
         //Muestro lista
         this.listaProductos.forEach(producto => {
             contenedor_productos.innerHTML += `
-                    <div class="card" style="width: 18rem;">
+                    <div class="card" style="width: 17rem">
                         <img style="width: 286px height: 218px" src="${producto.img}" alt="RX 6600 XT">
-                            <div class="card-body">
+                            <div class="card-body bg-black bg-gradient text-white">
                                 <h5 class="card-title d-flex justify-content-center">${producto.nombre}</h5>
-                                <p class="card-text">${producto.descripcion}</p>
+                                <p class="card-text" >${producto.descripcion}</p>
                                 <p>Precio: <strong>$${producto.precio}</p></strong>
-                                <a href="#" class="btn btn-primary d-flex justify-content-center"  id="gpu${producto.id}">Añadir al carrito</a>
+                                <a href="#" class="btn btn-success d-flex justify-content-center" id="gpu${producto.id}">Añadir al carrito</a>
                             </div>
                     </div>
             `
         })
     }
 
-    eventoEnAnadirCarrito(controladorCarrito){
+    eventoEnAnadirCarrito(controladorCarrito) {
         this.listaProductos.forEach(producto => {
             const productoEnCarrito = document.getElementById(`gpu${producto.id}`)
-        
+
             productoEnCarrito.addEventListener("click", () => {
-        
+
                 controladorCarrito.anadir(producto)
-        
+
                 controladorCarrito.levantar()
-        
+
                 controladorCarrito.mostrarEnDOM(contenedor_carrito)
-        
+
                 controladorCarrito.mostrarPreciosEnDOM(subtotal, total)
                 Toastify({
                     text: "Añadido al carrito!",
@@ -51,12 +52,13 @@ class ProductoController {
                     style: {
                         background: "linear-gradient(to right, #1eb597, #227bad)",
                         color: "white"
-        
+
                     },
                 }).showToast();
             })
         })
     }
+
 }
 
 class CarritoController {
@@ -80,12 +82,12 @@ class CarritoController {
     anadir(producto) {
 
         let productoExiste = this.listaCarrito.some(el => el.id == producto.id)
-        if(productoExiste){
+        if (productoExiste) {
 
             const productoEncontrado = this.buscar(producto.id)
             productoEncontrado.cantidad += 1
 
-        }else{
+        } else {
             this.listaCarrito.push(producto)
 
         }
@@ -95,7 +97,7 @@ class CarritoController {
         localStorage.setItem("listaCarrito", formatoJSON)
 
     }
-    cartDOMClear(contenedor_carrito){
+    cartDOMClear(contenedor_carrito) {
         contenedor_carrito.innerHTML = ""
     }
     mostrarEnDOM(contenedor_carrito) {
@@ -111,10 +113,10 @@ class CarritoController {
             </div>
             <div class="col-md-8">
             <div class="card-body">
-            <h5 class="card-title">${producto.nombre}</h5>
-            <p class="card-text">${producto.descripcion}</p>
+            <h5 class="card-title text-black">${producto.nombre}</h5>
+            <p class="card-text text-black">${producto.descripcion}</p>
             <button id= "borrar${producto.id}"> <i class= "botonBorrar fa-solid fa-trash"></i> </button>
-                        <p class="card-text"><small><strong>$${producto.precio}</strong> Unidades: ${producto.cantidad}</small></p>
+                        <p class="card-text text-black" style="max-width: 238px><small><strong>$${producto.precio}</strong> Unidades: ${producto.cantidad}</small></p>
                         </div>
                     </div>
                     </div>
@@ -148,7 +150,7 @@ class CarritoController {
         localStorage.removeItem("listaCarrito")
     }
 
-    mostrarPreciosEnDOM(subtotal, total){
+    mostrarPreciosEnDOM(subtotal, total) {
         subtotal.innerHTML = this.mostrarSubtotal()
         total.innerHTML = this.mostrarTotal()
     }
@@ -159,8 +161,8 @@ class CarritoController {
     mostrarTotal() {
         return this.mostrarSubtotal() * 1.21
     }
-    
-    buscar(id){
+
+    buscar(id) {
         return this.listaCarrito.find(producto => producto.id == id)
     }
 }
@@ -171,7 +173,6 @@ const controladorCarrito = new CarritoController()
 
 //Verificador de storage
 const levantoEsto = controladorCarrito.levantar()
-
 controladorProductos.levantarJSON(controladorCarrito)
 
 //Obtengo el DOM
@@ -182,16 +183,14 @@ const subtotal = document.getElementById("subtotal")
 const total = document.getElementById("total")
 
 //Levanto precios en Storage
-if(levantoEsto){
+if (levantoEsto) {
     controladorCarrito.mostrarPreciosEnDOM(subtotal, total)
 }
 
 //Aplicación JS
-
 controladorProductos.mostrarEnDOM(contenedor_productos)
 controladorCarrito.mostrarEnDOM(contenedor_carrito)
 controladorProductos.eventoEnAnadirCarrito(controladorCarrito)
-
 
 //Eventos en productos en carrito
 finalizar_compra.addEventListener("click", () => {

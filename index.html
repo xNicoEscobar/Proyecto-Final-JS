@@ -22,9 +22,9 @@
 <body>
     <!--NAVBAR BS-->
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary p-4">
+        <nav class="navbar navbar-expand-lg bg-black bg-gradient text-white p-4">
             <div class="container-fluid">
-                <a class="navbar-brand" href="./index.html">iGpu <span>Store</span></a>
+                <a class="navbar-brand text-white" href="./index.html"><strong>iGpu</strong> <span>Store</span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -33,13 +33,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Placas de video
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">NVIDIA</a></li>
-                                <li><a class="dropdown-item" href="#">AMD</a></li>
+                            <ul class="dropdown-menu bg-black bg-gradient">
+                                <li><a class="dropdown-item bg-black bg-gradient text-white" href="#" id="nvidia">NVIDIA</a></li>
+                                <li><a class="dropdown-item bg-black bg-gradient text-white" href="#" id="amd">AMD</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -62,10 +62,10 @@
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content bg-black bg-gradient text-white">
                 <div class="modal-header">
-                    <h2 class="modal-title fs-5" id="exampleModalLabel">Carrito</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title fs-5" id="exampleModalLabel">Su pedido:</h2>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="contenedor_carrito">
                     Su pedido:
@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    <footer class="text-center bg-body-tertiary p-4 mt-4">
+    <footer class="text-center bg-black bg-gradient text-white p-4 mt-4">
         <strong> iGpu Store </strong> - Todos los derechos reservados - 2023
     </footer>
 
